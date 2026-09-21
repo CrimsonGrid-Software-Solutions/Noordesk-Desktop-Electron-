@@ -100,4 +100,4 @@ The **Read Quran** feature is currently in its early stages and is **underdevelo
 
 ## 📝 License
 
-Distributed under the MIT License. See `LICENSE` for more information.
+Distributed under the GNU GPL v3 License. See `LICENSE` for more information.
