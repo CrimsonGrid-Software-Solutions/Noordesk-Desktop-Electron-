@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>NoorDesk - Prayer Times</title>
+<meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline'; connect-src 'self' http://api.aladhan.com http://ip-api.com;">    <link rel="stylesheet" href="prayer.css">
+</head>
+<body>
+    <!-- Navigation Button -->
+    <div class="nav-controls">
+        <button id="dashboard-btn" class="nav-btn">← Dashboard</button>
+    </div>
+
+    <div class="container">
+        <div class="header">
+            <h1 id="hijri-date">Loading...</h1>
+            <p id="gregorian-date"></p>
+        </div>
+
+        <div id="prayer-times" class="prayer-times-grid">
+            <div class="prayer-time-card"><p>Fajr</p><h2 id="fajr-time">--:--</h2></div>
+            <div class="prayer-time-card"><p>Dhuhr</p><h2 id="dhuhr-time">--:--</h2></div>
+            <div class="prayer-time-card"><p>Asr</p><h2 id="asr-time">--:--</h2></div>
+            <div class="prayer-time-card"><p>Maghrib</p><h2 id="maghrib-time">--:--</h2></div>
+            <div class="prayer-time-card"><p>Isha</p><h2 id="isha-time">--:--</h2></div>
+        </div>
+
+        <div class="footer">
+            <p id="location-text">Ahmedabad, India</p>
+        </div>
+    </div>
+
+    <script src="prayer-renderer.js" defer></script>
+</body>
+</html>

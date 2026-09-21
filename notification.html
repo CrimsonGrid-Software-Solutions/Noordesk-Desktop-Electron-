@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Adhan</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
+    <style>
+        :root {
+            /* App Theme Colors */
+            --bg-start: #322D2B;
+            --bg-end: #0C4A23;
+            --gold-primary: #E4C56C;
+            --gold-secondary: #C0A35A;
+            --text-primary: #f5f5f5;
+            --glass-border: rgba(228, 197, 108, 0.3);
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background: linear-gradient(135deg, var(--bg-start), var(--bg-end));
+            color: var(--text-primary);
+            font-family: 'Poppins', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            box-sizing: border-box;
+            -webkit-app-region: drag;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+        }
+
+        /* Animated Background Gradient */
+        body::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at center, rgba(228, 197, 108, 0.08) 0%, transparent 50%);
+            animation: rotate-bg 15s linear infinite;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        @keyframes rotate-bg {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .content-wrapper {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            padding: 20px;
+            animation: slide-up-fade 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        @keyframes slide-up-fade {
+            0% {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .icon-container {
+            margin-bottom: 20px;
+            color: var(--gold-primary);
+            filter: drop-shadow(0 0 15px rgba(228, 197, 108, 0.4));
+            animation: float-pulse 4s ease-in-out infinite;
+        }
+
+        @keyframes float-pulse {
+
+            0%,
+            100% {
+                transform: translateY(0) scale(1);
+                opacity: 0.9;
+            }
+
+            50% {
+                transform: translateY(-6px) scale(1.05);
+                opacity: 1;
+            }
+        }
+
+        .material-symbols-outlined {
+            font-size: 64px;
+        }
+
+        h1 {
+            font-size: 2.2rem;
+            font-weight: 600;
+            margin: 0 0 8px 0;
+            background: linear-gradient(to right, #fff, var(--gold-primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: 0.5px;
+            text-align: center;
+        }
+
+        p {
+            font-size: 1rem;
+            margin: 0 0 35px 0;
+            color: var(--gold-secondary);
+            font-weight: 400;
+            letter-spacing: 0.5px;
+            text-align: center;
+            opacity: 0.9;
+        }
+
+        #dismiss-btn {
+            background: rgba(228, 197, 108, 0.1);
+            border: 1px solid var(--gold-primary);
+            color: var(--gold-primary);
+            padding: 10px 32px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            text-transform: uppercase;
+            -webkit-app-region: no-drag;
+            backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        #dismiss-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: 0.5s;
+        }
+
+        #dismiss-btn:hover {
+            background: var(--gold-primary);
+            color: var(--bg-start);
+            box-shadow: 0 0 20px rgba(228, 197, 108, 0.4);
+            transform: translateY(-2px);
+        }
+
+        #dismiss-btn:hover::before {
+            left: 100%;
+        }
+
+        #dismiss-btn:active {
+            transform: translateY(0);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="content-wrapper">
+        <div class="icon-container">
+            <span class="material-symbols-outlined">mosque</span>
+        </div>
+
+        <h1 id="prayer-name">Fajr</h1>
+        <p>Come to prayer, Come to success</p>
+
+        <button id="dismiss-btn">Dismiss</button>
+    </div>
+
+    <audio id="adhan-audio" src="azan.mp3"></audio>
+    <script src="notification-renderer.js"></script>
+</body>
+
+</html>

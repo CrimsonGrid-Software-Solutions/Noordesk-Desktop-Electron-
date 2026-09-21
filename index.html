@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>NoorDesk 🌙</title>
+    <!-- CSP updated to allow quran.com in a frame/webview -->
+    <meta http-equiv="Content-Security-Policy"
+        content="script-src 'self' 'unsafe-inline'; media-src 'self' https://www.islamcan.com; connect-src 'self' https://api.aladhan.com https://apiip.net https://api.alquran.cloud; frame-src 'self' https://quran.com;">
+    <link rel="stylesheet" href="dashboard.css">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+</head>
+
+<body>
+    <!-- Top Bar Controls -->
+    <div class="drag-region"></div>
+    <div class="top-controls">
+        <button id="settings-btn" class="control-btn material-symbols-outlined">settings</button>
+    </div>
+    <div class="window-controls">
+        <button id="minimize-btn" class="control-btn">—</button>
+        <button id="toggle-fullscreen-btn" class="control-btn">◱</button>
+        <button id="close-btn" class="control-btn">×</button>
+    </div>
+
+    <!-- Settings Modal -->
+    <div id="settings-modal" class="modal-overlay">
+        <div class="modal-content">
+            <h3 class="widget-title">Settings</h3>
+            <div class="settings-content">
+                <div class="setting-item">
+                    <label>Location</label>
+                    <div class="manual-location-wrapper">
+                        <input type="text" id="city-input" placeholder="Enter City...">
+                        <button id="set-location-btn">Set</button>
+                    </div>
+                </div>
+                <div class="setting-item">
+                    <label></label>
+                    <button id="refresh-location-btn" class="refresh-btn">Auto-Detect Current Location</button>
+                </div>
+                <hr class="settings-divider">
+                <div class="setting-item">
+                    <label for="method-select">Calculation Method</label>
+                    <select id="method-select">
+                        <option value="2">ISNA (North America)</option>
+                        <option value="1">Muslim World League</option>
+                        <option value="3">Egyptian General Authority</option>
+                        <option value="4">Umm Al-Qura, Makkah</option>
+                        <option value="5">University of Islamic Sciences, Karachi</option>
+                        <option value="8">Kuwait</option>
+                        <option value="10">Qatar</option>
+                    </select>
+                </div>
+                <div class="setting-item">
+                    <label for="school-select">Asr Juristic</label>
+                    <select id="school-select">
+                        <option value="0">Standard (Shafi, Maliki, Hanbali)</option>
+                        <option value="1">Hanafi</option>
+                    </select>
+                </div>
+                <div class="setting-item">
+                    <label for="format-select">Time Format</label>
+                    <select id="format-select">
+                        <option value="24h">24-Hour</option>
+                        <option value="12h">12-Hour</option>
+                    </select>
+                </div>
+                <div class="setting-item">
+                    <label for="mute-toggle">Mute Adhan</label>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="mute-toggle">
+                        <span class="slider round"></span>
+                    </label>
+                </div>
+
+                <div class="settings-divider"></div>
+
+                <div class="setting-item" style="justify-content: center;">
+                    <button id="restart-app-btn" class="modal-btn danger-btn">
+                        <span class="material-symbols-outlined"
+                            style="font-size: 18px; vertical-align: middle; margin-right: 5px;">restart_alt</span>
+                        Restart App
+                    </button>
+                </div>
+            </div>
+            <div class="modal-actions">
+                <button id="save-settings-btn" class="modal-btn">Save & Close</button>
+                <button id="test-adhan-btn" class="modal-btn secondary-btn">Test Adhan</button>
+            </div>
+        </div>
+    </div>
+
+
+
+
+    <!-- NEW: Quran Disclaimer Modal -->
+    <div id="quran-disclaimer-modal" class="modal-overlay">
+        <div class="modal-content">
+            <h3 class="widget-title">Disclaimer</h3>
+            <p style="text-align: left; line-height: 1.6; margin-top: 20px;">
+                You are about to view Quran.com.
+                <br><br>
+                NoorDesk and Quran.com are not affiliated with each other. This feature is integrated
+                for convenience
+                and to implement the app's functionality.
+            </p>
+            <div style="text-align: left; margin: 15px 0;">
+                <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; color: #C0A35A;">
+                    <input type="checkbox" id="dont-show-disclaimer" style="accent-color: #E4C56C;">
+                    Don't show this again
+                </label>
+            </div>
+            <div class="modal-actions" style="display: flex; justify-content: space-between; align-items: center;">
+
+                <button id="quran-cancel-btn" class="modal-btn" style="background-color: #aaa;">Cancel</button>
+                <button id="quran-proceed-btn" class="modal-btn">Proceed</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Dashboard Grid -->
+    <main class="dashboard-grid">
+
+        <section class="widget main-clock-widget">
+            <div id="gregorian-date">Loading...</div>
+            <div id="live-clock">--:--:--</div>
+            <div id="hijri-date"></div>
+        </section>
+
+        <section class="widget prayer-times-widget">
+            <h3 class="widget-title">Today's Prayer Times</h3>
+            <div class="prayer-cards-container">
+                <div class="prayer-time-card" id="fajr-card">
+                    <p>Fajr</p>
+                    <h2 id="fajr-time">--:--</h2>
+                </div>
+                <div class="prayer-time-card" id="dhuhr-card">
+                    <p>Dhuhr</p>
+                    <h2 id="dhuhr-time">--:--</h2>
+                </div>
+                <div class="prayer-time-card" id="asr-card">
+                    <p>Asr</p>
+                    <h2 id="asr-time">--:--</h2>
+                </div>
+                <div class="prayer-time-card" id="maghrib-card">
+                    <p>Maghrib</p>
+                    <h2 id="maghrib-time">--:--</h2>
+                </div>
+                <div class="prayer-time-card" id="isha-card">
+                    <p>Isha</p>
+                    <h2 id="isha-time">--:--</h2>
+                </div>
+            </div>
+        </section>
+
+        <section class="widget countdown-widget">
+            <div class="countdown-label"><span id="next-prayer-name">Next Prayer</span> in</div>
+            <div id="countdown-timer">--:--:--</div>
+        </section>
+        <section class="widget-large verse-widget">
+            <h3 class="widget-title">Verse of the Day</h3>
+            <div class="verse-content-wrapper">
+                <p class="verse-text">"Indeed, with hardship will be ease."</p>
+                <p class="verse-reference">- Quran 94:6</p>
+            </div>
+        </section>
+
+        <section class="widget quran-nav-widget">
+            <h3 class="widget-title">Read Quran</h3>
+            <span class="material-symbols-outlined quran-icon">auto_stories</span>
+        </section>
+
+        <section class="widget qibla-widget">
+            <h3 class="widget-title">Qibla & Location</h3>
+            <div class="qibla-content">
+                <span class="material-symbols-outlined qibla-icon">explore</span>
+                <p id="location-text">Loading...</p>
+            </div>
+        </section>
+    </main>
+
+
+
+
+
+    <script src="dashboard-renderer.js" defer></script>
+</body>
+
+</html>
